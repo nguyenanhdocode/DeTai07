@@ -12,6 +12,10 @@ import java.util.Date;
  */
 public class TaiKhoanKyHan extends TaiKhoan{
 
+    public TaiKhoanKyHan(double laiSuat, Date ngayGui, Date ngayDaoHan) {
+        super(laiSuat, ngayGui);
+        this.ngayDaoHan = ngayDaoHan;
+    }
     /**
      * @return the ngayDaoHan
      */

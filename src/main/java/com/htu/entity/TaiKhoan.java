@@ -6,11 +6,12 @@ package com.htu.entity;
 
 import java.util.Date;
 
-/**
- *
- * @author nguye
- */
-abstract class TaiKhoan {
+public abstract class TaiKhoan {
     protected double laiSuat;
     protected Date ngayGui;
+    
+    protected TaiKhoan(double laiSuat, Date ngayGui) {
+        this.laiSuat = laiSuat;
+        this.ngayGui = ngayGui;
+    }
 }

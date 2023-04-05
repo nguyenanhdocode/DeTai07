@@ -4,12 +4,10 @@
  */
 package com.htu.entity;
 
-/**
- *
- * @author nguye
- */
+import java.util.Date;
+
 public class TaiKhoanKhongKyHan extends TaiKhoan{
-    public TaiKhoanKhongKyHan() {
-        
-        }
+    public TaiKhoanKhongKyHan(double laiSuat, Date ngayGui) {
+        super(laiSuat, ngayGui);
+    }
 }
