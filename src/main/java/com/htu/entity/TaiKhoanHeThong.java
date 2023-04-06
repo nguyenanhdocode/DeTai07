@@ -4,10 +4,6 @@
  */
 package com.htu.entity;
 
-/**
- *
- * @author nguye
- */
 public class TaiKhoanHeThong {
 
     /**

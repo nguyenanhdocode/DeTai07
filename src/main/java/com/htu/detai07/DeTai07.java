@@ -26,9 +26,11 @@ public class DeTai07 {
     private static int selectionIndex = -1;
     
     public static void main(String[] args) throws ParseException {
-        init();
+        
+		init();
         
         while (true) {
+			
             printMenu();
 
             System.out.print("Lua chon: ");
@@ -56,6 +58,7 @@ public class DeTai07 {
         quanLiTK = new QuanLiTaiKhoan();
     }
     
+	// Xử lí in menu
     public static void printMenu() {
         System.out.print("--------------- Chon chuc nang ---------------\n");
         System.out.print("1. Mo tai khoan khong ky han\n");
@@ -63,6 +66,7 @@ public class DeTai07 {
         System.out.print("3. Thoat\n");
     }
     
+	// Xử lý chức năng tạo tài khoản không kỳ hạn
     public static void moTaiKhoanKhongKyHan() throws ParseException {
         Scanner scan = new Scanner(System.in);
         System.out.print("Ho ten: ");
@@ -83,6 +87,7 @@ public class DeTai07 {
         System.out.print("So tien gui: ");
         double soTienGui = scan.nextDouble();
         
+		// Tạo thông tin khách hàng
         KhachHang kh = new KhachHang();
         kh.setHoTen(hoTen);
         kh.setGioiTinh(gioiTinh);
@@ -96,16 +101,21 @@ public class DeTai07 {
         kh.setSoCanCuoc(cccd);
         kh.setSoTienGui(soTienGui);
         
+		// Tạo tài khoản không kỳ hạn
         TaiKhoan tkKhongKH = new TaiKhoanKhongKyHan(0.2, convertedDate);
-        List<TaiKhoan> dsTaiKhoan = new ArrayList<>();
-        dsTaiKhoan.add(tkKhongKH);
-        kh.setDsTaiKhoan(dsTaiKhoan);
         
+		// Add tài khoản không kỳ hạn mặc định vào danh sách tài khoản của khách hàng
+		List<TaiKhoan> dsTaiKhoan = new ArrayList<>();
+		dsTaiKhoan.add(tkKhongKH);
+		kh.setDsTaiKhoan(dsTaiKhoan);
+        
+		// Add vào tài khoản hệ thống
         TaiKhoanHeThong tk = quanLiTK.moTaiKhoanKhongKyHan(kh);
         
         printKhachHang(tk);
     }
     
+	// Xử lí in thông tin tài khoản hệ thống
     public static void printKhachHang(TaiKhoanHeThong tk) {
         System.out.printf("-------Thong tin tai khoan----------\n");
         System.out.printf("Khach hang: %s\n", tk.getKhachHang().getHoTen());
@@ -113,6 +123,7 @@ public class DeTai07 {
         System.out.printf("Mat khau: %s\n", tk.getPassword());
     }
     
+	// Xử lí đăng nhập
     public static void dangNhap() {
         Scanner scan = new Scanner(System.in);
         System.out.print("Ten dang nhap: ");

@@ -12,10 +12,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
-/**
- *
- * @author nguye
- */
+
 public class QuanLiTaiKhoan {
 
     /**
@@ -40,7 +37,7 @@ public class QuanLiTaiKhoan {
         this.dsTaiKhoan = dsTaiKhoan;
     }
     
-    // Mở tài khoản không kỳ hạn
+    // Xử lí mở tài khoản không kỳ hạn
     public TaiKhoanHeThong moTaiKhoanKhongKyHan(KhachHang kh) {
         if (kh == null)
             return null;
