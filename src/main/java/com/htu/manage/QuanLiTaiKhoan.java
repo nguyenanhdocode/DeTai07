@@ -5,10 +5,13 @@
 package com.htu.manage;
 
 import com.htu.entity.KhachHang;
+import com.htu.entity.TaiKhoan;
 import com.htu.entity.TaiKhoanHeThong;
+import com.htu.entity.TaiKhoanKyHan;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -29,7 +32,7 @@ public class QuanLiTaiKhoan {
         this.sttKhachHang = sttKhachHang;
     }
 
-    public List<TaiKhoanHeThong> getDsTaiKhoang() {
+    public List<TaiKhoanHeThong> getDsTaiKhoan() {
         return dsTaiKhoan;
     }
     
@@ -50,6 +53,7 @@ public class QuanLiTaiKhoan {
         int day = calendar.get(Calendar.DATE);
         
         String newUserName =  String.format("%02d", day) + String.format("%02d", month) + year + String.format("%04d", sttKhachHang);
+        kh.setMaKH(newUserName);
         
         // Random mật khẩu
         Random rnd = new Random();
@@ -65,6 +69,26 @@ public class QuanLiTaiKhoan {
         dsTaiKhoan.add(tkHeThong);
         
         return tkHeThong;
+    }
+    
+    // Mở tài khoản có kỳ hạn
+    public TaiKhoan moTaiKhoanKyHan(String maKH, double soTienGui, Date ngayGui, double laiSuat, Date ngayDaoHan) {
+        TaiKhoan taiKhoan = new TaiKhoanKyHan(laiSuat, ngayGui, ngayDaoHan);
+        KhachHang kh = timKiem(maKH);
+        if (kh != null) {
+            kh.themTaiKhoan(taiKhoan);
+            return taiKhoan;
+        }
+        return null;
+    }
+    
+    public KhachHang timKiem(String maKH) {
+        for (int i = 0; i < dsTaiKhoan.size(); i++) {
+            KhachHang kh = dsTaiKhoan.get(i).getKhachHang();
+            if (kh.getMaKH().equals(maKH))
+                return kh;
+        }
+        return null;
     }
     
     public QuanLiTaiKhoan() {

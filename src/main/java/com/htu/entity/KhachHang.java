@@ -122,6 +122,10 @@ public class KhachHang {
         this.dsTaiKhoan = dsTaiKhoan;
     }
     
+    public void themTaiKhoan(TaiKhoan tk) {
+        this.dsTaiKhoan.add(tk);
+    }
+    
     public void guiTien() {}
     
     public void rutTien() {}
