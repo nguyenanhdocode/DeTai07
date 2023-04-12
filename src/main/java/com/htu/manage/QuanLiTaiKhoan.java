@@ -91,6 +91,47 @@ public class QuanLiTaiKhoan {
         return null;
     }
     
+    // Xử lí gửi tiền
+    public double guiTien(String maKH, double soTien) {
+        KhachHang kh = timKiem(maKH);
+        double soDu = kh.getSoTienGui() + soTien;
+        kh.setSoTienGui(soDu);
+        return soDu;
+    }
+    
+    // Xử lí rút tiền
+    public double rutTien(String maKH, double soTien) {
+        KhachHang kh = timKiem(maKH);
+        double tienConLai = kh.getSoTienGui() - soTien;
+        kh.setSoTienGui(tienConLai);
+        return tienConLai;
+    }
+    
+    public List<KhachHang> timKiemTheoTen(String tenKH) {
+        List<KhachHang> kq = new ArrayList<>();
+        for (int i = 0; i < dsTaiKhoan.size(); i++) {
+            if (dsTaiKhoan.get(i).getKhachHang().getHoTen().equalsIgnoreCase(tenKH)) {
+                kq.add(dsTaiKhoan.get(i).getKhachHang());
+            }
+        }
+        return kq;
+    }
+    
+    public List<KhachHang> timKiemTheoMaKH(String maKH) {
+        List<KhachHang> kq = new ArrayList<>();
+        for (int i = 0; i < dsTaiKhoan.size(); i++) {
+            if (dsTaiKhoan.get(i).getKhachHang().getMaKH().equalsIgnoreCase(maKH)) {
+                kq.add(dsTaiKhoan.get(i).getKhachHang());
+            }
+        }
+        return kq;
+    }
+    
+    public List<TaiKhoan> traCuuDsTaiKhoan(String maKH) {
+        KhachHang kh = timKiem(maKH);
+        return kh.getDsTaiKhoan();
+    }
+    
     public QuanLiTaiKhoan() {
         this.dsTaiKhoan = new ArrayList<>();
     }

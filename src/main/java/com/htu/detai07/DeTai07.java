@@ -5,10 +5,10 @@
 package com.htu.detai07;
 
 import com.htu.entity.KhachHang;
+import com.htu.entity.LoaiKyHan;
 import com.htu.entity.TaiKhoan;
 import com.htu.entity.TaiKhoanHeThong;
 import com.htu.entity.TaiKhoanKhongKyHan;
-import com.htu.manage.QuanLiKhachHang;
 import com.htu.manage.QuanLiTaiKhoan;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,7 +24,6 @@ import java.util.Scanner;
 public class DeTai07 {
 
     private static QuanLiTaiKhoan quanLiTK = new QuanLiTaiKhoan();
-    private static QuanLiKhachHang quanLiKH = new QuanLiKhachHang();
     private static int selectionIndex = -1;
     private static TaiKhoanHeThong tkHienTai;
     
@@ -51,11 +50,23 @@ public class DeTai07 {
                 case 3:
                     moTaiKhoanKyHan();
                     break;
+                case 4:
+                    guiTien();
+                    break;
+                case 5:
+                    rutTien();
+                    break;
+                case 6:
+                    timKiem();
+                    break;
+                case 7:
+                    traCuuDsTaiKhoan();
+                    break;
                 default:
                     break;
             }
 
-            if (selectionIndex == 4)
+            if (selectionIndex == 8)
                 break;
         }
     }
@@ -70,7 +81,11 @@ public class DeTai07 {
         System.out.print("1. Mo tai khoan khong ky han\n");
         System.out.print("2. Dang nhap\n");
         System.out.print("3. Mo tai khoan ky han\n");
-        System.out.print("4. Thoat\n");
+        System.out.print("4. Gui tien\n");
+        System.out.print("5. Rut tien\n");
+        System.out.print("6. Tim kiem\n");
+        System.out.print("7. Tra cuu danh sach tai khoan cua khach hang\n");
+        System.out.print("8. Thoat\n");
     }
     
 	// Xử lý chức năng tạo tài khoản không kỳ hạn
@@ -118,7 +133,6 @@ public class DeTai07 {
 
         // Add vào tài khoản hệ thống
         TaiKhoanHeThong tk = quanLiTK.moTaiKhoanKhongKyHan(kh);
-        quanLiKH.themKhachHang(tk.getKhachHang());
         
         printKhachHang(tk);
     }
@@ -199,19 +213,19 @@ public class DeTai07 {
             if (kyHan == 1) {
                 // Mot tuan
                 calendar.add(Calendar.DATE, 7);
-                laiSuat = 2;
+                laiSuat = LoaiKyHan.MOT_TUAN.getLaiSuat();
             } else if (kyHan == 2) {
                 // Mot thang
                 calendar.add(Calendar.MONTH, 1);
-                laiSuat = 5.5;
+                laiSuat = LoaiKyHan.MOT_THANG.getLaiSuat();
             } else if (kyHan == 3) {
                 // Sau thang
                 calendar.add(Calendar.MONTH, 6);
-                laiSuat = 7.5;
+                laiSuat = LoaiKyHan.SAU_THANG.getLaiSuat();
             } else if (kyHan == 4) {
                 // Mot thang
                 calendar.add(Calendar.YEAR, 1);
-                laiSuat = 7.9;
+                laiSuat = LoaiKyHan.MOT_NAM.getLaiSuat();
             }
 
             ngayDaoHan = calendar.getTime();
@@ -221,13 +235,75 @@ public class DeTai07 {
             
             System.out.print("---------------------------------------\n");
             System.out.print("Da mo tai khoan ky han thanh cong!\n");
-            System.out.printf("So tien gui: %f\n", soTienGui);
-            System.out.printf("Lai suat: %f\n", laiSuat);
+            System.out.printf("So tien gui: %.2f %s\n", soTienGui, "VND");
+            System.out.printf("Lai suat: %.2f %s\n", laiSuat * 100, "%");
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             System.out.printf("Ngay dao han: %s\n", dateFormat.format(ngayDaoHan));
         }
         else{
-            System.out.print("Dang nhap di loz\n");
+            System.out.print("Vui long dang nhap!\n");
+        }
+    }
+    
+    public static void rutTien() {
+        System.out.print("Nhap so tien can rut: ");
+        Scanner scan = new Scanner(System.in);
+        double soTien = scan.nextDouble();
+        
+        double soDu = quanLiTK.rutTien(tkHienTai.getKhachHang().getMaKH(), soTien);
+        
+        System.out.print("Rut tien thanh cong!\n");
+        System.out.printf("So du: %.2f VND\n", soDu);
+    }
+    
+    public static void guiTien() {
+        System.out.print("Nhap so tien can gui: ");
+        Scanner scan = new Scanner(System.in);
+        double soTien = scan.nextDouble();
+        
+        double soDu = quanLiTK.guiTien(tkHienTai.getKhachHang().getMaKH(), soTien);
+        
+        System.out.print("Gui tien thanh cong!\n");
+        System.out.printf("So du: %.2f VND\n", soDu);
+    }
+    
+    // Xử lí tìm kiếm khách hàng theo họ tên hoặc mã số khách hàng
+    public static void timKiem() {
+        System.out.print("Nhap ho ten hoac ma so khach hang: ");
+        Scanner scan = new Scanner(System.in);
+        String thongTinTimKiem = scan.nextLine();
+        
+        List<KhachHang> dsKH = quanLiTK.timKiemTheoMaKH(thongTinTimKiem);
+        
+        List<KhachHang> dsKHTheoTen = quanLiTK.timKiemTheoTen(thongTinTimKiem);
+        
+        dsKH.addAll(dsKHTheoTen);
+        
+        System.out.printf("-------------Ket qua tim kiem-------------\n");
+        
+        if (dsKH.isEmpty()) {
+            System.out.printf("Khong tim thay '%s'\n", thongTinTimKiem);
+        }
+        
+        for (int i = 0; i < dsKH.size(); i++) {
+            KhachHang kh = dsKH.get(i);
+            System.out.printf("Ma so khach hang: %s\n", kh.getMaKH());
+            System.out.printf("Ho ten: %s\n", kh.getHoTen());
+            System.out.printf("CCCD: %s\n", kh.getSoCanCuoc());
+            System.out.printf("Gioi tinh: %s\n", kh.getGioiTinh());
+            System.out.printf("Que quan: %s\n\n", kh.getQueQuan());
+        }
+        
+    }
+    
+    public static void traCuuDsTaiKhoan() {
+        System.out.print("Nhap ma so khach hang: ");
+        Scanner scan = new Scanner(System.in);
+        String maKH = scan.nextLine();
+        
+        List<TaiKhoan> dsTK = quanLiTK.traCuuDsTaiKhoan(maKH);
+        for (int i = 0; i < dsTK.size(); i++) {
+            
         }
     }
 }

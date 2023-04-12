@@ -4,6 +4,8 @@
  */
 package com.htu.entity;
 
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -124,6 +126,17 @@ public class KhachHang {
     
     public void themTaiKhoan(TaiKhoan tk) {
         this.dsTaiKhoan.add(tk);
+    }
+    
+    public void getDsTKKhongKyHan(KhachHang kh) {
+        List<TaiKhoan> dsTK = this.getDsTaiKhoan();
+        List<TaiKhoan> kq = new ArrayList<TaiKhoanKhongKyHan>();
+        for (int i = 0; i < dsTK.size(); i++) {
+            TaiKhoan tk = dsTK.get(i);
+            if (tk instanceof TaiKhoanKhongKyHan) {
+                kq.add(((TaiKhoanKhongKyHan)tk));
+            }
+        }
     }
     
     public void guiTien() {}
